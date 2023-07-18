@@ -35,6 +35,8 @@ Rows with no active cells are show with all cells blank.
 
 ## Features
 
+- (1.23) removed unused permissions
+- (1.22) fixed cors issue
 - (1.21) Updated default conf files.
 - (1.20) Updated code to show real status code for success.
 - (1.19) Fixed bug
