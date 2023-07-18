@@ -3,10 +3,9 @@
   "name": "Is It Up",
   "short_name": "Is It Up",
   "description": "Extension to check if end points are up",
-  "version": "1.22",
+  "version": "1.23",
   "permissions": [
     "storage",
-    "tabs",
     "<all_urls>",
     "activeTab",
     "notifications"
