@@ -1,15 +1,10 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Is It Up",
   "short_name": "Is It Up",
   "description": "Extension to check if end points are up",
   "version": "1.23",
-  "permissions": [
-    "storage",
-    "<all_urls>",
-    "activeTab",
-    "notifications"
-  ],
+  "permissions": ["storage", "<all_urls>", "activeTab", "notifications"],
   "browser_action": {
     "default_icon": "img/isitup128.png"
   },
@@ -19,10 +14,13 @@
     "128": "img/isitup128.png"
   },
   "background": {
-    "scripts": ["js/background.js"]
+    "service_worker": "js/background.js",
+    "type": "module"
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://ssl.google-analytics.com; object-src 'self'",
-  "web_accessible_resources": ["img/*.png", "conf/*.json", "options.html"],
+  "web_accessible_resources": {
+    "resources": ["img/*.png", "conf/*.json", "options.html"]
+  },
   "options_ui": {
     "page": "options.html",
     "chrome_style": true,
