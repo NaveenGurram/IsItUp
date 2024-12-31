@@ -35,6 +35,7 @@ Rows with no active cells are show with all cells blank.
 
 ## Features
 
+- (2.00) migrated to manifest v3
 - (1.23) removed unused permissions
 - (1.22) fixed cors issue
 - (1.21) Updated default conf files.
@@ -91,7 +92,7 @@ The configuration file location is retained. It can be reloaded any time by clic
 
 ## Dashboard Image Hints
 
-You will want small images, preferrably smaller than the result code icons.  
+You will want small images, preferrably smaller than the result code icons.
 Google has a tool that can turn a website favicon into a standard image.
 This (slightly hacked up) url shows how it can be done. Replace foo.com with your URL.
 

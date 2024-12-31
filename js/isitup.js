@@ -2,7 +2,7 @@ var notApplicable = "N/A";
 var gifLoadingEle = "<img src='./img/ajax-loader.gif'>";
 var healthResp = "Only Json is displayed";
 
-$(document).ready(function() {
+$(document).ready(function () {
   // get configuraton values
   // get values from localsync
   chrome.storage.local.get(
@@ -16,11 +16,11 @@ $(document).ready(function() {
       color: "#ffcc00",
       pageRefreshAfter: 30,
       cfgTxt: "",
-      fileTypeTxt: "json"
+      fileTypeTxt: "json",
     },
-    function(items) {
+    function (items) {
       doProcess(items);
-    }
+    },
   );
 });
 
@@ -40,6 +40,7 @@ function doProcess(items) {
   if (!configuration) {
     return;
   }
+
   var componentMap = {};
   // create a componentMap
   var hcols = configuration.headers.cols.split(",");
@@ -47,13 +48,13 @@ function doProcess(items) {
   // now validate json
   if (hcols.length == 0) {
     setErrorText(
-      "Configuration Error: No column headers specified. Please check configuration"
+      "Configuration Error: No column headers specified. Please check configuration",
     );
     return;
   }
   if (hrows.length == 0) {
     setErrorText(
-      "Configuration Error: No row headers specified. Please check configuration"
+      "Configuration Error: No row headers specified. Please check configuration",
     );
     return;
   }
@@ -64,7 +65,7 @@ function doProcess(items) {
         configuration.rows.length +
         " rows of data provided. This conflicts with the " +
         hrows.length +
-        " row headers provided."
+        " row headers provided.",
     );
     return;
   }
@@ -79,7 +80,7 @@ function doProcess(items) {
           configuration.rows[i].cols.length +
           " columns of data provided. This conflicts with the " +
           hcols.length +
-          " column headers provided"
+          " column headers provided",
       );
       return;
     }
@@ -99,7 +100,7 @@ function doProcess(items) {
     componentMap,
     spanIdMap,
     items.allowIndividualRetry,
-    items.showBadges
+    items.showBadges,
   );
   /// isitupHtml += layoutHeader(hcols);
   isitupHtml += "</table>";
@@ -110,13 +111,16 @@ function doProcess(items) {
   // allow automatic refresh
   if (items.allowAutomaticRefresh && items.pageRefreshAfter > 0) {
     // refresh status every x seconds
-    window.setInterval(function() {
-      /// call your function here
-      checkHealth(spanIdMap, items.pushNotifications, items);
-    }, parseInt(items.pageRefreshAfter * 1000));
+    window.setInterval(
+      function () {
+        /// call your function here
+        checkHealth(spanIdMap, items.pushNotifications, items);
+      },
+      parseInt(items.pageRefreshAfter * 1000),
+    );
   }
 
-  $("span").click(function() {
+  $("span").click(function () {
     var spanData = $(this).attr("data");
     if ($(this).text() === notApplicable) {
       $("#status-detail").html("");
@@ -162,7 +166,7 @@ function setupBadgeShowHideToggle(showBadges) {
     $("#showBadgeToggle").attr("checked", true);
   }
   // 'collapse out' is hide, 'collapse in' is expand
-  $("#showBadgeToggle").change(function() {
+  $("#showBadgeToggle").change(function () {
     if ($(this).is(":checked")) {
       $(".badgeDivClass").removeClass("collapse out");
       $(".badgeDivClass").addClass("collapse in");
@@ -170,7 +174,7 @@ function setupBadgeShowHideToggle(showBadges) {
       $(".badgeDivClass").removeClass("collapse in");
       $(".badgeDivClass").addClass("collapse out");
     }
-    $("span").each(function() {
+    $("span").each(function () {
       if ($(this).attr("data-toggle") === "collapse") {
         if ($(this).hasClass("glyphicon glyphicon-collapse-up")) {
           $(this).removeClass("glyphicon glyphicon-collapse-up");
@@ -217,12 +221,12 @@ function layoutTableBody(
   componentMap,
   spanIdMap,
   allowIndividualRetry,
-  showBadges
+  showBadges,
 ) {
   var markupHtml = "";
   markupHtml += "<tbody>";
   // build out the table one row at a time
-  $.each(componentMap, function(key, value) {
+  $.each(componentMap, function (key, value) {
     // row header
     markupHtml += "<tr><td class='rowwise'><b>" + rowHeaders[key] + "</b></td>";
     // now each column
@@ -292,7 +296,7 @@ function layoutTableBody(
               method: value[i].badges[bi_i].method
                 ? value[i].badges[bi_i].method
                 : "GET",
-              headers: value[i].badges[bi_i].headers
+              headers: value[i].badges[bi_i].headers,
             };
           }
           markupHtml += "</div>";
@@ -301,7 +305,7 @@ function layoutTableBody(
         spanIdMap[spanId] = {
           url: value[i].healthUrl,
           method: value[i].method ? value[i].method : "GET",
-          headers: value[i].headers
+          headers: value[i].headers,
         };
       } else if (rowIsBlank) {
         markupHtml += "<td></td>";
@@ -334,22 +338,22 @@ function checkHealth(spanIdMap, pushNotifications, items) {
   // now fire all url's and callback will update span with corresponding style and the content.
   // Deprecation Notice: The jqXHR.success(), jqXHR.error(), and jqXHR.complete() callbacks are removed as of jQuery 3.0. You can use jqXHR.done(), jqXHR.fail(), and jqXHR.always() instead.
   // http://api.jquery.com/jquery.ajax/
-  $.each(spanIdMap, function(key, value) {
+  $.each(spanIdMap, function (key, value) {
     $.ajax({
       url: value.url,
       type: value.method,
-      beforeSend: function(xhr) {
+      beforeSend: function (xhr) {
         if (value.headers) {
           for (var hi_i = 0; hi_i < value.headers.length; hi_i++) {
             xhr.setRequestHeader(
               value.headers[hi_i].name,
-              value.headers[hi_i].value
+              value.headers[hi_i].value,
             );
           }
         }
       },
       // 2xx and notmodified 304
-      success: function(data, textStatus, jqXHR) {
+      success: function (data, textStatus, jqXHR) {
         var spanData = "";
         var buildId = "Not Available";
         var badgeVal = jqXHR.status;
@@ -395,11 +399,11 @@ function checkHealth(spanIdMap, pushNotifications, items) {
             .append(
               "<br/><span class='status-code label' style='display:none'>" +
                 buildId +
-                "</span>"
+                "</span>",
             );
         }
       },
-      error: function(jqXHR, error, errorThrown) {
+      error: function (jqXHR, error, errorThrown) {
         errMsg = "";
         if (jqXHR.status) {
           var statusData = {};
@@ -422,9 +426,9 @@ function checkHealth(spanIdMap, pushNotifications, items) {
           sendNotification(key + " is down!!!", errMsg);
         }
       },
-      complete: function() {
+      complete: function () {
         $("#" + key).attr("title", value.url);
-      }
+      },
     });
   });
 }
@@ -437,9 +441,9 @@ function sendNotification(title, notificationMessage) {
     type: "basic",
     title: title,
     iconUrl: "img/isitup16.png",
-    message: notificationMessage
+    message: notificationMessage,
   };
-  chrome.notifications.create("", options, function(cb) {});
+  chrome.notifications.create("", options, function (cb) {});
 }
 
 /**
@@ -474,52 +478,42 @@ function uuid() {
   return Math.floor((1 + Math.random()) * 0x10000).toString(16);
 }
 
-$(document).on("click", ".buildid", function() {
+$(document).on("click", ".buildid", function () {
   var id = $(this).attr("id");
   var i = parseInt(id);
   i = i + 2;
   if ($(this).is(":checked")) {
     $("table")
       .find("tr td:nth-child(" + i + ")")
-      .each(function() {
-        $(this)
-          .find(".label")
-          .css({ display: "block" });
+      .each(function () {
+        $(this).find(".label").css({ display: "block" });
       });
   } else {
     $("table")
       .find("tr td:nth-child(" + i + ")")
-      .each(function() {
-        $(this)
-          .find(".label")
-          .css({ display: "none" });
+      .each(function () {
+        $(this).find(".label").css({ display: "none" });
       });
   }
 });
 
-$(document).on("click", ".rowwise", function() {
-  var id = $(this)
-    .closest("tr")
-    .index();
+$(document).on("click", ".rowwise", function () {
+  var id = $(this).closest("tr").index();
   var i = parseInt(id);
   i = i + 1;
   if (!$(this).attr("data-toggled") || $(this).attr("data-toggled") == "off") {
     $(this).attr("data-toggled", "on");
     $("table")
       .find("tr:eq(" + i + ") td")
-      .each(function() {
-        $(this)
-          .find(".label")
-          .css({ display: "block" });
+      .each(function () {
+        $(this).find(".label").css({ display: "block" });
       });
   } else if ($(this).attr("data-toggled") == "on") {
     $(this).attr("data-toggled", "off");
     $("table")
       .find("tr:eq(" + i + ") td")
-      .each(function() {
-        $(this)
-          .find(".label")
-          .css({ display: "none" });
+      .each(function () {
+        $(this).find(".label").css({ display: "none" });
       });
   }
 });
