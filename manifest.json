@@ -3,7 +3,10 @@
   "name": "Is It Up",
   "version": "2.0",
   "description": "Extension to check if end points are up",
-  "permissions": ["storage", "activeTab", "notifications"],
+  "permissions": ["storage", "notifications"],
+  "author": {
+    "email": "gurram.naveen@gmail.com"
+  },
   "action": {
     "default_icon": {
       "16": "img/isitup16.png",
