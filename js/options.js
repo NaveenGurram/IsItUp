@@ -147,12 +147,12 @@ function loadConfigFromUri(fullUri) {
         if ("json" === extension || "yaml" === extension || "yml" === extension) {
             //console.log('in click method '+fullUri);
             $.get(fullUri)
-                .success(function(fetchedData) {
+                .done(function(fetchedData) {
                     $("textarea[name='cfgTxt']").val(fetchedData);
                     $("#fileTypeId").val(extension.toLowerCase());
                     showStatus('Configuration loaded successfully from remote location');
                 })
-                .error(function(jqXHR, statusText, error) {
+                .fail(function(jqXHR, statusText, error) {
                     showStatus('Error: ' + error + 'Failed to load from remote location');
                 });
         } else {
