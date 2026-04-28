@@ -176,7 +176,7 @@ function readSingleFile(evt) {
             var isFileValid = true;
             if ("json" === extension) {
                 try {
-                    $.parseJSON(contents);
+                    JSON.parse(contents);
                 } catch (err) {
                     isFileValid = false;
                 }
